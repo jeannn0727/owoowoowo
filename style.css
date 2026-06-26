@@ -1,0 +1,445 @@
+/* ==========================================================================
+   Jean Archive Core Stylesheet - v1.8.0 [NEON_OPTIMIZED + RWD_FIX]
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght=400;700&display=swap');
+
+/* --- 核心重設與像素渲染優化 --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+/* 自訂網頁滾動條（適用於滿版作品牆） */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #05010a;
+}
+::-webkit-scrollbar-thumb {
+    background: #250638;
+    border: 1px solid #b624ff;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #b624ff;
+}
+
+body {
+    background-color: #0c0214;
+    background-image: 
+        linear-gradient(rgba(182, 36, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(182, 36, 255, 0.04) 1px, transparent 1px);
+    background-size: 16px 16px;
+    color: #df80ff;
+    font-family: 'Courier Prime', 'Courier', monospace;
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+    user-select: none;
+    cursor: cell;
+    -webkit-font-smoothing: none; /* 保持點陣字體的硬邊緣 */
+}
+
+/* --- 頂部系統狀態列 --- */
+.system-bar {
+    width: 100%;
+    height: 30px;
+    background: rgba(37, 6, 56, 0.85);
+    backdrop-filter: blur(4px); /* 微毛玻璃，提升高級感 */
+    color: #ffb3ff;
+    border-bottom: 4px double #b624ff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    font-weight: bold;
+    font-size: 13px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* --- 移動視窗組件 (OS Windows) --- */
+.window {
+    position: absolute;
+    background: #0c0214;
+    border: 2px solid #b624ff;
+    outline: 2px solid #000;
+    outline-offset: -4px;
+    box-shadow: 6px 6px 0px #1a042b;
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+    z-index: 10;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.window:hover {
+    box-shadow: 6px 6px 12px rgba(182, 36, 255, 0.15);
+}
+
+.window-header {
+    background: #b624ff;
+    color: #000;
+    padding: 6px 10px;
+    font-weight: bold;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+    border-bottom: 2px solid #b624ff;
+    outline: 2px solid #000;
+}
+
+.window-btn {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #000;
+    background: #ffb3ff;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+.window-btn:hover { background: #df80ff; }
+.window-content { padding: 14px; color: #df80ff; }
+
+/* 視窗初始定位與防寬度爆出限制 */
+#window-carousel { 
+    width: 340px; 
+    max-width: calc(100vw - 20px);
+    top: 120px; 
+    left: 60px; 
+}
+#window-links { 
+    width: 280px; 
+    max-width: calc(100vw - 20px);
+    top: 120px; 
+    right: 60px; 
+    left: auto; 
+}
+
+/* 輪播內部優化 */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border: none;
+    background: #11031c;
+    overflow: hidden;
+}
+
+/* 完美置中切換 */
+.carousel-item { 
+    display: none; 
+    width: 100%; 
+    height: 100%; 
+}
+.carousel-item.active { 
+    display: flex !important; 
+    justify-content: center; 
+    align-items: center; 
+}
+.carousel-item img {
+    width: 80%;
+    height: 90%;
+    object-fit: cover;
+    filter: saturate(0.8) contrast(1.1);
+}
+.carousel-controls { display: flex; justify-content: space-between; margin-top: 12px; }
+
+/* 連結清單 */
+.link-list { list-style: none; }
+.link-list li { margin-bottom: 6px; }
+.link-list a { 
+    color: #df80ff; 
+    text-decoration: none; 
+    display: block; 
+    padding: 6px 10px;
+    border: 1px solid transparent;
+}
+.link-list a:hover { 
+    color: #df80ff; 
+    text-decoration: none; 
+    display: block; 
+    padding: 6px 10px;
+    border: 1px solid transparent;
+	position: relative;
+    z-index: 5;
+}
+
+/* 像素通用按鈕 */
+.pixel-btn {
+    background: #000; 
+    color: #df80ff; 
+    border: 2px solid #b624ff;
+    padding: 4px 12px; 
+    font-family: inherit; 
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px #000;
+    transition: all 0.1s;
+}
+.pixel-btn:hover { 
+    background: #b624ff; 
+    color: #000;
+    box-shadow: 0px 0px 0px #000;
+    transform: translate(2px, 2px);
+}
+
+/* ==========================================================================
+   中央直式面板 (Dashboard Dock)
+   ========================================================================== */
+.center-dock {
+    position: absolute;
+    top: 30px; bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 100%; max-width: 440px;
+    background-color: transparent;
+    border: none;
+    padding: 50px 24px; 
+    z-index: 5;
+    display: flex; flex-direction: column; align-items: center;
+    overflow-y: auto;
+}
+
+.center-dock::-webkit-scrollbar { display: none; }
+
+.dock-logo-area {
+    width: 100%; margin-top: 20px; margin-bottom: 40px;
+    display: flex; flex-direction: column; align-items: center; gap: 18px;
+}
+
+.pixel-logo-container {
+    width: 140px; height: 140px; display: flex; justify-content: center; align-items: center;
+    background: #150424; position: relative;
+    border: 1px solid rgba(182, 36, 255, 0.2);
+    box-shadow: inset 0 0 15px rgba(182, 36, 255, 0.1);
+}
+
+/* 四角像素飾線 */
+.pixel-logo-container::before {
+    content: ""; position: absolute; top: -2px; left: -2px; width: 12px; height: 12px;
+    border-top: 3px solid #b624ff; border-left: 3px solid #b624ff;
+}
+.pixel-logo-container::after {
+    content: ""; position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px;
+    border-bottom: 3px solid #b624ff; border-right: 3px solid #b624ff;
+}
+
+.dock-title {
+    font-size: 15px; font-weight: bold; letter-spacing: 3px; color: #ffb3ff; 
+    text-shadow: 2px 2px 0px #250638;
+}
+
+.dock-buttons { width: 100%; display: flex; flex-direction: column; gap: 16px; }
+
+/* 標誌型 GIF 按鈕優化 */
+.logo-gif-button {
+    display: flex; align-items: center; width: 100%; padding: 12px 16px;
+    background-color: rgba(12, 2, 20, 0.6); 
+    border: 1px solid rgba(182, 36, 255, 0.1); 
+    text-decoration: none; cursor: pointer; gap: 20px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-logo-gif {
+    width: 44px; height: 44px; background-size: contain; background-repeat: no-repeat; background-position: center;
+    filter: grayscale(100%) sepia(100%) hue-rotate(260deg) saturate(300%) brightness(0.8);
+    opacity: 0.5; 
+    transition: opacity 0.2s, transform 0.2s, filter 0.2s;
+}
+
+.logo-gif-button .btn-label {
+    color: #df80ff; font-family: inherit; font-size: 13px; font-weight: bold; letter-spacing: 1.5px;
+    border-bottom: 2px dashed transparent; padding-bottom: 2px;
+    transition: color 0.2s;
+}
+
+.logo-gif-button:hover {
+    background-color: rgba(37, 6, 56, 0.4);
+    border-color: rgba(182, 36, 255, 0.4);
+}
+.logo-gif-button:hover .btn-logo-gif { 
+    opacity: 1; 
+    transform: scale(1.08) rotate(-2deg); 
+    filter: grayscale(0%) sepia(0%) brightness(1); 
+}
+.logo-gif-button:hover .btn-label { 
+    color: #ffb3ff; 
+    border-bottom: 2px dashed #b624ff;
+    text-shadow: 0 0 4px rgba(255, 179, 255, 0.5);
+}
+
+/* ==========================================================================
+   全域、整頁沉浸式大視窗共享樣式 (Full Page Panels)
+   ========================================================================== */
+.full-page-panel {
+    position: fixed;
+    top: 30px; bottom: 0; left: 0; width: 100%;
+    background-color: #06010d;
+    background-image: linear-gradient(rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 50%);
+    background-size: 100% 4px; /* CRT 掃描線濾鏡 */
+    z-index: 8500;
+    padding: 60px 24px;
+    overflow-y: auto;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.full-page-panel.show {
+    display: block !important;
+    opacity: 1;
+}
+
+.panel-top-bar {
+    width: 100%; max-width: 760px; margin: 0 auto 30px auto;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px dashed rgba(182, 36, 255, 0.5); 
+    padding-bottom: 16px;
+}
+
+.panel-title { 
+    font-size: 16px; font-weight: bold; color: #ffb3ff; letter-spacing: 2px;
+    text-shadow: 0 0 6px rgba(182, 36, 255, 0.6);
+}
+
+.panel-content { 
+    width: 100%; max-width: 760px; margin: 0 auto; 
+    display: flex; flex-direction: column; gap: 50px; 
+}
+
+/* 作品大圖卡片優化 */
+.large-card {
+    width: 100%; display: flex; flex-direction: column;
+    background: #0c0214; border: 2px solid #b624ff; 
+    box-shadow: 8px 8px 0px #150424;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.large-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 10px 10px 0px #1a042b, 0 0 15px rgba(182, 36, 255, 0.1);
+}
+
+.large-card img, .large-card .video-container {
+    width: 100%; height: auto; border-bottom: 2px dashed rgba(182, 36, 255, 0.4);
+}
+
+.video-container {
+    position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000;
+}
+.video-container iframe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+}
+
+.card-info { padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+.card-project-title { font-size: 15px; font-weight: bold; color: #ffb3ff; letter-spacing: 1px; }
+.card-project-desc { font-size: 12px; color: #a291b5; line-height: 1.6; }
+
+/* ==========================================================================
+   作品牆 RWD 兩欄網格排版 (四張四張並排)
+   ========================================================================== */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 核心：平分成左右兩欄 */
+    gap: 30px; /* 卡片彼此之間的間距 */
+    width: 100%;
+}
+
+/* 作品大圖卡片優化 */
+.large-card {
+    width: 100%; 
+    display: flex; 
+    flex-direction: column;
+    background: #0c0214; 
+    border: 2px solid #b624ff; 
+    box-shadow: 8px 8px 0px #150424;
+    cursor: pointer; /* 讓鼠標滑過去顯示手勢提示可點擊放大 */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.large-card:hover {
+    transform: translateY(-4px); /* 稍微調高懸浮高度，更有立體感 */
+    box-shadow: 12px 12px 0px #1a042b, 0 0 15px rgba(182, 36, 255, 0.2);
+}
+
+/* 確保網格內部的圖片維持極致的等寬高像素縮放 */
+.large-card img {
+    width: 100%;
+    height: 240px; /* 固定卡片圖片高度，確保並排時對齊美觀 */
+    object-fit: cover; /* 圖片自動裁切填滿 */
+    border-bottom: 2px dashed rgba(182, 36, 255, 0.4);
+}
+
+
+/* 委託點陣表格樣式優化 */
+.pixel-table {
+    width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; letter-spacing: 0.5px;
+}
+.pixel-table th, .pixel-table td {
+    border: 1px dashed rgba(182, 36, 255, 0.4); padding: 14px 12px; text-align: left;
+}
+.pixel-table th { 
+    background: #180529; color: #ffb3ff; font-weight: bold; 
+}
+.pixel-table tbody tr:hover {
+    background: rgba(182, 36, 255, 0.05);
+}
+
+/* 右下角小宣告 */
+.system-footer { 
+    position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: #491d70; z-index: 9999; 
+    pointer-events: none; letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   🆕 RWD 網頁變小/手機瀏覽防裁切版型調整
+   ========================================================================== */
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+        height: auto;
+    }
+
+    .center-dock {
+        position: relative;
+        top: 0; left: 0;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+        padding: 50px 16px 10px 16px;
+    }
+
+    .window {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 16px auto !important;
+        width: 95% !important;
+        box-shadow: 4px 4px 0px #1a042b;
+    }
+    
+    .carousel-container {
+        height: 180px;
+    }
+	@media (max-width: 768px) {
+    /* ... 這裡保留你原本的手機版程式碼 ... */
+
+    /* 補上這段：讓手機版的作品牆自動恢復成單欄排版 */
+    .portfolio-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+    .large-card img {
+        height: auto; /* 手機版不限制高度 */
+    }
+}
+}

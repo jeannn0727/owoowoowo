@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jean Archive</title>
+	<link rel="icon" href="IMG_03.GIF" type="IMG/GIF">
+</head>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #retro-music-player {
+            position: fixed;
+            right: 20px;
+            bottom: 45px;
+            width: 180px;
+            background: #000000;
+            border: 1px solid #b624ff;
+            box-shadow: 0 0 10px rgba(182, 36, 255, 0.5);
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            font-family: monospace;
+        }
+        .music-disc-area {
+            width: 40px;
+            height: 40px;
+            border: 1px dashed #b624ff;
+            border-radius: 50%; /* 讓圖片變成圓形像黑膠唱片 */
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #111;
+        }
+        .music-disc-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .spinning {
+            animation: rotateDisc 4s linear infinite;
+        }
+        @keyframes rotateDisc {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .music-controls-area {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+        #mini-status {
+            font-size: 10px;
+            color: #ffb3ff;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+        #mute-toggle-btn {
+            background: #000;
+            border: 1px solid #b624ff;
+            color: #df80ff;
+            font-size: 10px;
+            padding: 3px 6px;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+        }
+        #mute-toggle-btn:hover {
+            background: #b624ff;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="system-bar">
+        <div>SYS_MENU // Jean Archive</div>
+        <div id="system-clock">00:00:00 AM</div>
+    </div>
+
+    <div class="center-dock">
+        <div class="dock-logo-area">
+            <div class="pixel-logo-container">
+                <span style="font-size: 12px; color: #582485;">
+                    <img src="IMG_03.GIF" style="width: 100%; height: 100%; object-fit: contain;">
+                </span>
+            </div>
+            <div class="dock-title">JEAN_ARCHIVE_CORE</div>
+        </div>
+        
+        <div class="dock-buttons">
+            <button class="logo-gif-button" onclick="openPanel('panel-portfolio')">
+                <div class="btn-logo-gif" style="background-image: url('IMG_14.GIF');"></div>
+                <div class="btn-label">ENTER_PORTFOLIO.EXE</div>
+            </button>
+            
+            <button class="logo-gif-button" onclick="openPanel('panel-animation')">
+                <div class="btn-logo-gif" style="background-image: url('IMG_13.GIF');"></div>
+                <div class="btn-label">[02] ANIMATION_GRID.SYS</div>
+            </button>
+            
+            <button class="logo-gif-button" onclick="openPanel('panel-commission')">
+                <div class="btn-logo-gif" style="background-image: url('IMG_15.GIF');"></div>
+                <div class="btn-label">[03] COMMISSION_INFO.NET</div>
+            </button>
+        </div>
+    </div>
+
+    <div class="full-page-panel" id="panel-portfolio">
+        <div class="panel-top-bar">
+            <div class="panel-title">&gt; INDEX_PORTFOLIO_WALL [8_ITEMS_LOADED]</div>
+            <button class="pixel-btn" onclick="closeAllPanels()">[ESC] RETURN_HOME</button>
+        </div>
+        <div class="panel-content">
+            <p style="font-size: 11px; color: #582485; margin: 0 0 15px 10px; letter-spacing: 1px;">
+                ※ SYSTEM_NOTE: CLICK_ANY_IMAGE_TO_ZOOM_IN // 點擊任意圖片可放大檢視
+            </p>
+
+            <div class="portfolio-grid">
+                
+                <div class="large-card" onclick="zoomImage(this)">
+                    <img src="IMG_06.png" alt="Work 01">
+                    <div class="card-info">
+                        <div class="card-project-title">ZUTOMAYO-Medianoche</div>
+                        <div class="card-project-desc">&gt; FILE:ZUTOMAYO-Medianoche</div>
+                    </div>
+                </div>
+
+                <div class="large-card" onclick="zoomImage(this)">
+                    <img src="IMG_07.png" alt="Work 02">
+                    <div class="card-info">
+                        <div class="card-project-title">ZUTOMAYO-Medianoche</div>
+                        <div class="card-project-desc">&gt;ZUTOMAYO-Medianoche</div>
+                    </div>
+                </div>
+
+                <div class="large-card" onclick="zoomImage(this)">
+                    <img src="IMG_08.png" alt="Work 03">
+                    <div class="card-info">
+                        <div class="card-project-title">ZUTOMAYO-眩しいDNAだけ</div>
+                        <div class="card-project-desc">&gt;ZUTOMAYO-眩しいDNAだけ。</div>
+                    </div>
+                </div>
+
+                <div class="large-card" onclick="zoomImage(this)">
+                    <img src="IMG_05.png" alt="Work 04">
+                    <div class="card-info">
+                        <div class="card-project-title">ACA NE</div>
+                        <div class="card-project-desc">&gt;ACA NE</div>
+                    </div>
+                </div>
+
+                <div class="large-card" onclick="zoomImage(this)">
+                    <img src="IMG_09.png" alt="Work 05">
+                    <div class="card-info">
+                        <div class="card-project-title">修女</div>
+                        <div class="card-project-desc">&gt; 修女</div>
+                    </div>
+                </div>
+
+                <div class="large-card" onclick="zoomImage(this)">
+                    <img src="IMG_10.png" alt="Work 06">
+                    <div class="card-info">
+                        <div class="card-project-title">魅魔</div>
+                        <div class="card-project-desc">&gt; 魅魔</div>
+                    </div>
+                </div>
+
+                <div class="large-card" onclick="zoomImage(this)">
+                    <img src="IMG_11.png" alt="Work 07">
+                    <div class="card-info">
+                        <div class="card-project-title">病嬌模擬器</div>
+                        <div class="card-project-desc">&gt;病嬌模擬器</div>
+                    </div>
+                </div>
+
+                <div class="large-card" onclick="zoomImage(this)">
+                    <img src="IMG_12.png" alt="Work 08">
+                    <div class="card-info">
+                        <div class="card-project-title">珂拉琪-血母陰身</div>
+                        <div class="card-project-desc">&gt;珂拉琪-血母陰身</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+   <div class="full-page-panel" id="panel-animation">
+        <div class="panel-top-bar">
+            <div class="panel-title">&gt; ANIMATION_STREAM_GRID</div>
+            <button class="pixel-btn" onclick="closeAllPanels()">[ESC] RETURN_HOME</button>
+        </div>
+        <div class="panel-content">
+            <div class="large-card">
+                <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000;">
+                    <video autoplay loop muted controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+                        <source src="1234.mp4" type="video/mp4">
+                        你的瀏覽器不支援播放此 MP4 影片。
+                    </video>
+                </div>
+                <div class="card-info">
+                    <div class="card-project-title">ANIMATION: RE_RE_GRID_SHIFTER</div>
+                    <div class="card-project-desc">&gt; ENCODER: MP4_H264 // 說明: 影格動態與時間軸柵格化特效測試展示。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="retro-lightbox" onclick="closeZoom()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; cursor: zoom-out; align-items: center; justify-content: center; flex-direction: column;">
+        <img id="lightbox-img" src="" style="max-width: 90%; max-height: 80%; border: 2px solid #b624ff; box-shadow: 0 0 20px rgba(182, 36, 255, 0.8); object-fit: contain;">
+        <div id="lightbox-caption" style="color: #00ffcc; font-family: monospace; font-size: 13px; margin-top: 15px; text-align: center; background: #000; padding: 5px 15px; border: 1px dashed #b624ff; letter-spacing: 1px;"></div>
+    </div>
+
+    <script>
+        function zoomImage(cardElement) {
+            // 抓取被點擊卡片內部的圖片路徑（src）與專案標題
+            const imgSrc = cardElement.querySelector('img').src;
+            const projectTitle = cardElement.querySelector('.card-project-title').innerText;
+            
+            const lightbox = document.getElementById('retro-lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            
+            // 帶入內容並顯現
+            lightboxImg.src = imgSrc;
+            lightboxCaption.innerText = `VIEWING // ${projectTitle}`;
+            lightbox.style.display = 'flex';
+        }
+
+        function closeZoom() {
+            // 點擊任何地方關閉放大鏡
+            document.getElementById('retro-lightbox').style.display = 'none';
+        }
+    </script>
+    <div class="full-page-panel" id="panel-commission">
+        <div class="panel-top-bar">
+            <div class="panel-title">&gt; COMMISSION_TERMS_2026</div>
+            <button class="pixel-btn" onclick="closeAllPanels()">[ESC] RETURN_HOME</button>
+        </div>
+        <div class="panel-content">
+            <div class="large-card" style="padding: 24px;">
+				
+                <div class="card-project-title" style="font-size: 20px; margin-bottom: 10px;">✦ 委託規範  價目表 ✦</div>
+                <p style="font-size: 13px; line-height: 1.8; color: #aaa; margin-bottom: 20px;">
+                    歡迎進入聯絡終端。非商業/商業委託皆開放中，請詳閱以下點陣說明，確認意願後可點選桌面 [EXT_LINKS] 連接至社群私訊。
+                </p>
+                
+                <table class="pixel-table">
+                    <thead>
+                        <tr>
+                            <th>項目 (ITEM)</th>
+                            <th>規格 (SPEC)</th>
+                            <th>定價 (PRICING)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pixel Icon 點陣頭貼</td>
+                            <td>500x500 px // GIF 動態</td>
+                            <td>$500+ 起</td>
+                        </tr>
+                        <tr>
+                            <td>Full-Body 插畫繪製</td>
+                            <td>A4 尺寸 // 300 DPI // PNG</td>
+                            <td>$2,500+ 起</td>
+                        </tr>
+                        <tr>
+                            <td>Motion Graphics 動畫短片</td>
+                            <td>1080p // 60 FPS // Loop MV</td>
+                            <td>依複雜度時薪報價</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="window" id="window-carousel">
+        <div class="window-header">
+            <span>[■] IMG_ARCHIVE.REPT</span>
+            <div class="window-btn"></div>
+        </div>
+        <div class="window-content">
+            <div class="carousel-container">
+                <span class="carousel-item active">
+                    <img src="IMG_01.GIF">
+                </span>
+                <span class="carousel-item">
+                    <img src="IMG_02.GIF">
+                </span>
+                <span class="carousel-item">
+                    <img src="IMG_03.GIF">
+                </span>
+            </div>
+            <div class="carousel-controls">
+                <button class="pixel-btn" onclick="moveSlide(-1)">&lt; PREV</button>
+                <span id="slide-number" style="align-self: center; font-size: 12px;">01 / 03</span>
+                <button class="pixel-btn" onclick="moveSlide(1)">NEXT &gt;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="window" id="window-links">
+        <div class="window-header"><span>[■] EXT_LINKS.IDX</span><div class="window-btn"></div></div>
+        <div class="window-content">
+            <ul class="link-list">
+                <li><a href="https://www.instagram.com/jeannn_0815/" target="_blank">&gt; INSTAGRAM</a></li>
+                <li><a href="https://www.threads.com/@jeannn_0815?igshid=NTc4MTIwNjQ2YQ==" target="_blank">&gt; THREADS</a></li>
+                <li><a href="https://x.com/jeannn_0815?s=11" target="_blank">&gt; X</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="retro-music-player">
+        <div class="music-disc-area">
+            <img id="music-img" src="IMG_04.jpg" alt="Music Disc">
+        </div>
+        <div class="music-controls-area">
+            <div id="mini-status">BGM: READY</div>
+            <button id="mute-toggle-btn" onclick="togglePlay()">
+                <span id="volume-icon">🔇</span> MUTE
+            </button>
+        </div>
+        <audio id="local-bgm" loop>
+            <source src="ZUTOMAYO.mp3" type="audio/mpeg">
+            你的瀏覽器不支援播放此音頻。
+        </audio>
+    </div>
+
+    <div class="system-footer">OS_VERSION: JEAN.026.ROM</div>
+
+    <script>
+        // --- 視窗拖曳核心邏輯 ---
+        const headers = document.querySelectorAll('.window-header');
+        let activeWindow = null; let isDragging = false;
+        let currentX, currentY, initialX, initialY;
+
+        headers.forEach(header => { header.addEventListener('mousedown', dragStart); });
+        document.addEventListener('mousemove', drag); document.addEventListener('mouseup', dragEnd);
+
+        function dragStart(e) {
+            activeWindow = e.target.closest('.window');
+            if (!activeWindow) return;
+            document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
+            activeWindow.style.zIndex = 100;
+            if (e.target.classList.contains('window-btn')) return;
+            isDragging = true;
+            
+            initialX = activeWindow.offsetLeft - e.clientX;
+            initialY = activeWindow.offsetTop - e.clientY;
+            activeWindow.style.right = 'auto';
+        }
+
+        function drag(e) {
+            if (!isDragging || !activeWindow) return;
+            e.preventDefault();
+            currentX = e.clientX + initialX; currentY = e.clientY + initialY;
+            
+            if (currentY < 30) currentY = 30;
+            if (currentX < -activeWindow.offsetWidth + 60) currentX = -activeWindow.offsetWidth + 60;
+            if (currentX > window.innerWidth - 60) currentX = window.innerWidth - 60;
+
+            activeWindow.style.left = currentX + 'px'; activeWindow.style.top = currentY + 'px';
+        }
+
+        function dragEnd() { isDragging = false; activeWindow = null; }
+
+        // --- 全自動多面板切換邏輯 ---
+        function openPanel(panelId) {
+            closeAllPanels(); 
+            const targetPanel = document.getElementById(panelId);
+            if (targetPanel) {
+                targetPanel.classList.add('show');
+                targetPanel.scrollTop = 0; 
+            }
+        }
+
+        function closeAllPanels() {
+            document.querySelectorAll('.full-page-panel').forEach(panel => {
+                panel.classList.remove('show');
+            });
+        }
+
+        // --- 系統時鐘 ---
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('system-clock').innerText = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+        setInterval(updateClock, 1000); updateClock();
+        
+        // --- 點擊切換相片輪播邏輯 ---
+        let currentSlide = 0; 
+        const slides = document.querySelectorAll('#window-carousel .carousel-item');
+        const slideNumberText = document.getElementById('slide-number');
+
+        function showSlide(index) {
+            if (slides.length === 0) return; 
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (index + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideNumberText.innerText = `0${currentSlide + 1} / 0${slides.length}`;
+        }
+
+        function moveSlide(step) { 
+            showSlide(currentSlide + step); 
+        }
+
+        // --- 🎵 右下角音樂核心控制（自動點擊觸發與靜音切換） ---
+        const bgm = document.getElementById('local-bgm');
+        const muteBtn = document.getElementById('mute-toggle-btn');
+        const volumeIcon = document.getElementById('volume-icon');
+        const miniStatus = document.getElementById('mini-status');
+        const musicImg = document.getElementById('music-img');
+
+        function togglePlay() {
+            if (bgm.paused) {
+                playMusic();
+            } else {
+                pauseMusic();
+            }
+        }
+
+        function playMusic() {
+            bgm.play().then(() => {
+                muteBtn.innerHTML = '<span id="volume-icon">🔊</span> UNMUTE';
+                miniStatus.innerText = "BGM: PLAYING";
+                miniStatus.style.color = "#00ffcc";
+                musicImg.classList.add('spinning');
+            }).catch(err => {
+                console.log("等待使用者點擊以啟動音訊裝置。");
+            });
+        }
+
+        function pauseMusic() {
+            bgm.pause();
+            muteBtn.innerHTML = '<span id="volume-icon">🔇</span> MUTE';
+            miniStatus.innerText = "BGM: MUTED";
+            miniStatus.style.color = "#ffb3ff";
+            musicImg.classList.remove('spinning');
+        }
+
+        // 核心密技：使用者點擊網頁任意處，只要狀態是 READY 就自動背景發聲
+        document.addEventListener('click', function() {
+            if (bgm.paused && miniStatus.innerText === "BGM: READY") {
+                playMusic();
+            }
+        }, { once: false });
+    </script>
+</body>
+</html>
