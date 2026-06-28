@@ -119,7 +119,8 @@ body {
     min-width: 260px;
     max-width: 380px;
     top: 120px; 
-    left: calc(100vw - 20vw - 60px);
+    right: 60px; 
+
 }
 
 
